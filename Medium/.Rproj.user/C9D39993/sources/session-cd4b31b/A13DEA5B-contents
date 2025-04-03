@@ -1,0 +1,34 @@
+---
+title: "Multi-tables Merge in R"
+author: "Moses Kamau Chege"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+#### Load required library for data manipulation
+
+```{r}
+library(dplyr)
+```
+
+### Function to merge three tables with different join types
+
+```{r}
+merge_three_tables <- function(x, y, z, by_x_y, by_xy_z, join_type = "inner") {
+  if (!join_type %in% c("inner", "left", "right", "full")) {
+    stop("Invalid join type.")
+  }
+```
+
+### Merge table x and table y based on the selected join type
+
+```{r}
+  xy_merged <- switch(join_type,
+                      "inner" = inner_join(x, y, by = by_x_y),
+                      "left"  = left_join(x, y, by = by_x_y),
+                      "right" = right_join(x, y, by = by_x_y),
+                      "full"  = full_join(x, y, by = by_x_y)
+  )
+```
+
+
